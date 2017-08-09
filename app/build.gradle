@@ -1,0 +1,72 @@
+apply plugin: 'war'
+apply plugin : 'eclipse-wtp'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+		
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+war {
+	baseName = 'keycloakfullpoc'
+	version = '0.0.1-SNAPSHOT'
+	exclude('**/key-clock-client/**')
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+}
+test{
+	exclude "**/*"
+}
+dependencies{
+	 compile('org.springframework.boot:spring-boot-starter')
+     compile('org.springframework.boot:spring-boot-starter-web')
+     providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+     
+     compile('org.springframework.boot:spring-boot-starter-test')
+     
+     compile('org.springframework.boot:spring-boot-starter-security')
+     compile('org.keycloak:keycloak-spring-security-adapter:3.1.0.Final')
+     
+     compile ('org.codehaus.groovy:groovy-all:2.0.5')
+     compile ( 'org.modelmapper:modelmapper:0.7.5')
+     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+}
+
+task buildAngular(type:Exec) {
+	doFirst{
+		workingDir 'src/main/webapp/key-clock-client'
+		commandLine 'ng', 'build', '--prod', '--no-sourcemap'
+		standardOutput = new ByteArrayOutputStream()
+		ext.output = {
+				return standardOutput.toString()
+		}
+	}
+}
+
+task moveDistFiles(dependsOn: ['classes','buildAngular'], type: JavaExec) {
+	main = 'MoveDistFiles'
+	classpath = sourceSets.main.runtimeClasspath
+}
+
+
+task buildWar(dependsOn:'moveDistFiles', type:Exec) {
+	commandLine 'gradle', 'build'
+	standardOutput = new ByteArrayOutputStream()
+	ext.output = {
+			return standardOutput.toString()
+	}
+}
+
+task cleanAfterBuild(dependsOn : ['classes','buildWar'], type: JavaExec) {
+	main = 'CleanAfterBuild'
+	classpath = sourceSets.main.runtimeClasspath
+}
+
+task buildwebapp(dependsOn:'cleanAfterBuild') {
+	
+}
+
+
+

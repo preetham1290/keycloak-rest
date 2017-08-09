@@ -1,0 +1,12 @@
+
+dependencies{
+	 compile('org.hibernate:hibernate-validator:5.4.1.Final')
+	 compile('org.springframework.boot:spring-boot-starter-web')
+	 compile('org.keycloak:keycloak-core:3.1.0.Final')
+	  
+	  compile('org.jboss.resteasy:resteasy-multipart-provider:3.1.0.Final')
+	  
+	  compile('org.glassfish.jersey.core:jersey-client:2.22.1')
+	  compile('org.glassfish.jersey.ext:jersey-proxy-client:2.22.1')
+	  compile('org.glassfish.jersey.media:jersey-media-json-jackson')
+}

@@ -1,0 +1,38 @@
+buildscript {
+    	repositories {
+        	mavenCentral()
+        	 jcenter()
+   		}
+    	dependencies {
+       		 classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+    	}
+	}
+subprojects{
+	apply plugin:'java'
+	apply plugin: 'eclipse'
+	apply plugin: 'org.springframework.boot'
+		
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+	
+	repositories {
+    	mavenCentral()
+	}
+	dependencies {
+	}
+	task wrapper(type: Wrapper) {
+    	gradleVersion = '3.4'
+	}
+	
+}
+
+
+project(':app'){
+	dependencies{
+		 compile project (':keycloak-util')
+	}
+}
+project(':keycloak-util'){
+	dependencies{
+	}
+}

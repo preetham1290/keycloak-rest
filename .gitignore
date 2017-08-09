@@ -1,0 +1,17 @@
+/properties/
+
+.mvn/wrapper/maven-wrapper.jar
+
+.gradle/*
+.settings/*
+
+*/.settings/*
+*/.gradle/*
+*/bin/*
+*/build/
+*/.gradle/
+*/.classpath
+*/.project
+/.gradle/
+/.classpath
+/.project
